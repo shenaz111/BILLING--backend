@@ -83,11 +83,13 @@ const updatecustomer = async (req, res, next) => {
 };
 const deletecustomer = async (req, res, next) => {
   try {
-    const customer = await CUSTOMER.findByIdAndDelete(req.params.id);
+    const customer = await CUSTOMER.findById(req.params.id);
     console.log('cust id during delete' , req.params.id)
     if (!customer) {
       return next(errorHandler(404, "customer_not_found"));
     }
+    await customer.deleteOne()
+
 
     const customerEmail = customer.email;
 

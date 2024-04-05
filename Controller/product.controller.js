@@ -126,10 +126,12 @@ const deleteProduct = async (req, res, next) => {
     admin.products = deleteproductfromADMIN;
     await admin.save();
 
-    const product = await PRODUCT.findByIdAndDelete({ _id: req.params.id });
+    const product = await PRODUCT.findById({ _id: req.params.id });
     if (!product) {
       return next(errorHandler(404, "Product not found"));
     }
+    await product.deleteOne()
+
 
     res.status(200).json(" deleted successfully");
   } catch (error) {
